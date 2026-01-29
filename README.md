@@ -1,9 +1,9 @@
 # 🎤 Show Your 9 Sing (是9但唱)
 
-> **Just Sing, No Config.**
+> **Just Sing, No Config.**  
 > A lightweight, static H5 music player designed to showcase your karaoke recordings. It automatically scans your folder and generates a playlist during the build process.
   
-> **是但唱，唔使烦。**
+> **是但唱，唔使烦。**  
 > 一个超轻量级的静态 H5 音乐播放器，专门用来展示你的 K 歌录音。它会在构建时自动扫描目录并生成歌单，主打一个“懒人维护”。
 
 ---
