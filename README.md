@@ -75,7 +75,7 @@ const NICKNAME = "My Name";
 
 ### Option 1: Cloudflare Pages (Recommended / 推荐)
 
-*Best for automation. The list updates automatically when you push code.*
+*Best for automation. The list updates automatically when you push code.*  
 *最推荐，自动化程度高，代码推送后自动更新歌单。*
 
 1. Log in to **Cloudflare Dashboard** -> **Pages** -> **Connect to Git**.
@@ -89,7 +89,7 @@ const NICKNAME = "My Name";
 
 ### Option 2: Vercel
 
-*Very stable and fast. Similar to Cloudflare.*
+*Very stable and fast. Similar to Cloudflare.*  
 *非常稳定，速度快，设置与 Cloudflare 类似。*
 
 1. Log in to **Vercel** -> **Add New...** -> **Project**.
@@ -103,20 +103,12 @@ const NICKNAME = "My Name";
 
 ### Option 3: GitHub Pages
 
-*Since GitHub Pages is purely static, we use GitHub Actions to run the scan script.*
-*GitHub Pages 默认是纯静态的，我们需要使用 GitHub Actions 来运行扫描脚本。*
+*Since GitHub Pages is purely static, we use GitHub Actions to run the scan script.*  
+*GitHub Pages 默认是纯静态的，我们需要使用 GitHub Actions 来运行扫描脚本。*  
 
-1. Create a file at `.github/workflows/deploy.yml`.
-
-
-
-
-在仓库新建文件 `.github/workflows/deploy.yml`。
-2. Paste the content below into the file:
-
-
-
-
+1. Create a file at `.github/workflows/deploy.yml`.  
+在仓库新建文件 `.github/workflows/deploy.yml`。  
+2. Paste the content below into the file:  
 将以下内容粘贴到文件中：
 
 ```yaml
@@ -159,8 +151,6 @@ jobs:
 ```
 
 3. Go to Repo **Settings** -> **Pages** -> Select **Source**: `GitHub Actions`.
-
-
-
+4. 
 
 进入仓库 **Settings** -> **Pages** -> 将 **Source** 改为 `GitHub Actions`。
