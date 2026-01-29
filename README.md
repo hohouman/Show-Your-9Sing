@@ -19,8 +19,8 @@
 * **📱 Responsive**: Minimalist design, works perfectly on mobile and desktop.  
   **响应式设计**：极简风格，手机电脑完美适配。
 
-* **⚡️ Cloud Ready**: Optimized for Cloudflare Pages, Vercel, and GitHub Pages.  
-  **云端支持**：完美支持主流静态托管平台。
+* **⚡️ Cloud Ready**: Optimized for Cloudflare Pages.  
+  **云端支持**：完美支持Cloudflare Pages。
 
 ---
 
