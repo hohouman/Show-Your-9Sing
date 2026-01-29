@@ -11,29 +11,16 @@
 ## ✨ Features / 特性
 
 * **🎧 Auto Playlist**: No JSON editing required. Just upload audio files, and the script (`scan.js`) generates the list.
+  **自动歌单**：无需手写 JSON。上传音频，脚本自动生成列表。
 
-
-
-
-**自动歌单**：无需手写 JSON。上传音频，脚本自动生成列表。
 * **📜 Lyrics Sync**: Automatically displays `.txt` lyrics with the same filename.
+  **歌词同步**：自动展示与音频同名的 `.txt` 歌词文本。
 
-
-
-
-**歌词同步**：自动展示与音频同名的 `.txt` 歌词文本。
 * **📱 Responsive**: Minimalist design, works perfectly on mobile and desktop.
+  **响应式设计**：极简风格，手机电脑完美适配。
 
-
-
-
-**响应式设计**：极简风格，手机电脑完美适配。
 * **⚡️ Cloud Ready**: Optimized for Cloudflare Pages, Vercel, and GitHub Pages.
-
-
-
-
-**云端优选**：完美支持主流静态托管平台。
+  **云端支持**：完美支持主流静态托管平台。
 
 ---
 
