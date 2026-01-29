@@ -233,4 +233,59 @@
             .then(res => res.json())
             .then(songs => {
                 if(!songs || songs.length === 0) {
-                    listEl.innerHTML = '<div style="padding:20px;text-align:center">src 目录空空如也
+                    listEl.innerHTML = '<div style="padding:20px;text-align:center">src 目录空空如也</div>';
+                    return;
+                }
+                renderList(songs);
+
+                // 自动加载第一首
+                if (songs.length > 0) {
+                    const firstEl = listEl.children[0];
+                    if (firstEl) {
+                        play(songs[0], firstEl);
+                    }
+                }
+            })
+            .catch(() => {
+                listEl.innerHTML = '<div style="padding:20px;color:red;text-align:center">⚠️ 请配置构建命令:<br>node scan.js</div>';
+            });
+
+        function renderList(songs) {
+            listEl.innerHTML = '';
+            songs.forEach(song => {
+                const div = document.createElement('div');
+                div.className = 'song-item';
+                div.innerText = song.title; 
+                div.onclick = () => {
+                    play(song, div);
+                    if (window.innerWidth <= 768) {
+                        toggleMenu();
+                    }
+                };
+                listEl.appendChild(div);
+            });
+        }
+
+        function play(song, el) {
+            document.querySelectorAll('.song-item').forEach(d => d.classList.remove('active'));
+            el.classList.add('active');
+            
+            titleEl.innerText = song.title;
+            audioEl.src = `./src/${song.file}`;
+            
+            // 默认不调用 audioEl.play()
+            
+            lyricsEl.innerText = "正在读取歌词...";
+            const lyricFileName = song.title + ".txt"; 
+            
+            fetch(`./src/${lyricFileName}`)
+                .then(res => {
+                    if (res.ok) return res.text();
+                    throw new Error("无歌词");
+                })
+                .then(text => lyricsEl.innerText = text)
+                .catch(() => lyricsEl.innerText = "（未找到同名 .txt 歌词文件）");
+        }
+    </script>
+</body>
+</html>
