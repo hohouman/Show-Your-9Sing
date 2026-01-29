@@ -66,7 +66,7 @@
         }
         .repo-link:hover { color: #333; }
 
-        /* --- 主区域 --- */
+        /* --- 主区域 (Flex Column 布局) --- */
         .main {
             flex: 1; display: flex; flex-direction: column; align-items: center;
             height: 100vh; position: relative; width: 100%; overflow: hidden;
@@ -79,7 +79,7 @@
             padding: 8px; cursor: pointer; backdrop-filter: blur(5px);
         }
 
-        /* 顶部播放器 */
+        /* 顶部播放器 (固定，不遮挡) */
         .player-header {
             width: 100%; max-width: 600px; text-align: center;
             background: var(--bg); flex-shrink: 0; z-index: 20; 
@@ -88,7 +88,7 @@
         h2 { margin-bottom: 20px; font-weight: normal; font-size: 1.6rem; padding: 0 10px; }
         audio { width: 90%; height: 40px; outline: none; }
         
-        /* 歌词区域 */
+        /* 歌词区域 (独立滚动) */
         .lyrics {
             flex: 1; width: 100%; max-width: 600px;
             text-align: center; line-height: 2.2; color: #666; 
@@ -193,29 +193,26 @@
                 }
                 renderList(songs);
 
-                // --- 路由逻辑：解析 URL ---
+                // --- 路由逻辑 ---
                 const pathName = decodeURIComponent(window.location.pathname.substring(1));
                 
                 let songToPlay = songs[0]; // 默认：第一首
                 let targetDiv = listEl.children[0];
 
                 if (pathName) {
-                    // 如果 URL 有路径，尝试查找
                     const foundSong = songs.find(s => s.title === pathName);
                     
                     if (foundSong) {
-                        // ✅ 找到了：播放这首
+                        // 找到了：播放这首
                         songToPlay = foundSong;
                         const index = songs.findIndex(s => s.title === pathName);
                         targetDiv = listEl.children[index];
                     } else {
-                        // ❌ 没找到 (无效路径)：清理 URL，但仍播放第一首
+                        // ❌ 没找到 (无效路径)：清理 URL，仍播放第一首
                         console.log('无效路径，自动重置');
                         history.replaceState(null, '', '/'); 
-                        // songToPlay 保持 songs[0]，targetDiv 保持 listEl.children[0]
                     }
                 }
-                // 如果是根目录 /，pathName 为空，也会直接播放第一首
 
                 if (songToPlay) {
                     play(songToPlay, targetDiv);
@@ -233,7 +230,6 @@
                 div.innerText = song.title; 
                 div.onclick = () => {
                     play(song, div);
-                    // 点击切换时，改变 URL
                     history.pushState(null, '', '/' + song.title);
                     if (window.innerWidth <= 768) {
                         toggleMenu();
@@ -251,14 +247,12 @@
             
             titleEl.innerText = song.title;
             
-            // 修改后：直接使用原始文件名，让浏览器处理
             audioEl.src = `./src/${song.file}`;
-            audioEl.load(); // 强制重载 (修复状态切换问题)
+            audioEl.load(); // 保持 load() 以修复切换状态
 
             lyricsEl.innerText = "正在读取歌词...";
             
-            // 歌词文件名编码
-            const lyricFileName = encodeURIComponent(song.title + ".txt");
+            const lyricFileName = song.title + ".txt";
             
             fetch(`./src/${lyricFileName}`)
                 .then(res => {
@@ -272,7 +266,6 @@
                 .catch(() => lyricsEl.innerText = "（未找到同名 .txt 歌词文件）");
         }
 
-        // 监听浏览器“后退”
         window.onpopstate = function() {
             window.location.reload();
         };
