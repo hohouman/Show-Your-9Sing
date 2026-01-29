@@ -150,5 +150,5 @@ jobs:
 
 ```
 
-  3. Go to Repo **Settings** -> **Pages** -> Select **Source**: `GitHub Actions`.
+  3. Go to Repo **Settings** -> **Pages** -> Select **Source**: `GitHub Actions`.  
   进入仓库 **Settings** -> **Pages** -> 将 **Source** 改为 `GitHub Actions`。
