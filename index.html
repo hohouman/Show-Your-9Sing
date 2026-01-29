@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>是但9sing</title>
+    <style>
+        :root { --primary: #222; --accent: #0070f3; --bg: #fafafa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, sans-serif;
+            background: var(--bg); color: var(--primary);
+            height: 100vh; display: flex; overflow: hidden;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 260px; background: #fff; border-right: 1px solid #eee;
+            display: flex; flex-direction: column; flex-shrink: 0;
+        }
+        .profile {
+            padding: 40px 20px; text-align: center; border-bottom: 1px solid #f5f5f5;
+        }
+        .avatar {
+            width: 80px; height: 80px; border-radius: 50%;
+            object-fit: cover; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .nickname { font-weight: bold; font-size: 1.1rem; }
+        
+        .song-list { flex: 1; overflow-y: auto; }
+        .song-item {
+            padding: 16px 24px; cursor: pointer; font-size: 15px; color: #555;
+            border-left: 3px solid transparent; transition: 0.2s;
+        }
+        .song-item:hover { background: #f4f4f4; color: #000; }
+        .song-item.active { background: #e6f7ff; border-left-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+        /* 主播放区 */
+        .main {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            padding: 40px; overflow-y: auto;
+        }
+        .sticky-header {
+            width: 100%; max-width: 500px; text-align: center;
+            position: sticky; top: 0; background: var(--bg);
+            z-index: 10; padding-bottom: 20px;
+        }
+        h2 { margin-bottom: 20px; font-weight: normal; font-size: 1.8rem; }
+        audio { width: 100%; height: 40px; outline: none; }
+        
+        .lyrics {
+            margin-top: 20px; white-space: pre-wrap; line-height: 2.2;
+            color: #666; text-align: center; max-width: 500px; padding-bottom: 100px;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; border-bottom: 1px solid #eee; }
+            .song-list { max-height: 250px; }
+            .main { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="profile">
+            <img id="avatar" class="avatar" src="" alt="Avatar">
+            <div class="nickname" id="nick">My KTV</div>
+        </div>
+        <div class="song-list" id="list">
+            <div style="padding:20px; text-align:center; color:#999">Loading...</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="sticky-header">
+            <h2 id="title">请选择歌曲</h2>
+            <audio id="audio" controls></audio>
+        </div>
+        <div class="lyrics" id="lyrics"></div>
+    </main>
+
+    <script>
+        // === 配置区 ===
+        const AVATAR_URL = "https://file.leidun.pp.ua/favicon.ico"; // 你的头像链接
+        const NICKNAME = "小雷顿"; // 你的昵称
+        // =============
+
+        document.getElementById('avatar').src = AVATAR_URL;
+        document.getElementById('nick').innerText = NICKNAME;
+
+        const listEl = document.getElementById('list');
+        const titleEl = document.getElementById('title');
+        const audioEl = document.getElementById('audio');
+        const lyricsEl = document.getElementById('lyrics');
+
+        // 加载歌曲列表
+        fetch('./list.json')
+            .then(res => res.json())
+            .then(songs => {
+                if(!songs || songs.length === 0) {
+                    listEl.innerHTML = '<div style="padding:20px;text-align:center">src 目录空空如也</div>';
+                    return;
+                }
+                renderList(songs);
+            })
+            .catch(() => {
+                listEl.innerHTML = '<div style="padding:20px;color:red;text-align:center">⚠️ 请配置构建命令:<br>node scan.js</div>';
+            });
+
+        function renderList(songs) {
+            listEl.innerHTML = '';
+            songs.forEach(song => {
+                const div = document.createElement('div');
+                div.className = 'song-item';
+                div.innerText = song.title; // 显示歌名（无后缀）
+                div.onclick = () => play(song, div);
+                listEl.appendChild(div);
+            });
+        }
+
+        function play(song, el) {
+            // UI 高亮处理
+            document.querySelectorAll('.song-item').forEach(d => d.classList.remove('active'));
+            el.classList.add('active');
+            
+            // 1. 播放音频 (使用 list.json 里记录的完整文件名)
+            titleEl.innerText = song.title;
+            audioEl.src = `./src/${song.file}`;
+            audioEl.play().catch(() => {});
+
+            // 2. 加载歌词 (假设歌词和音频同名，且为 .txt)
+            lyricsEl.innerText = "正在读取歌词...";
+            const lyricFileName = song.title + ".txt"; // 拼凑 txt 文件名
+            
+            fetch(`./src/${lyricFileName}`)
+                .then(res => {
+                    if (res.ok) return res.text();
+                    throw new Error("无歌词");
+                })
+                .then(text => lyricsEl.innerText = text)
+                .catch(() => lyricsEl.innerText = "（未找到同名 .txt 歌词文件）");
+        }
+    </script>
+</body>
+</html>
