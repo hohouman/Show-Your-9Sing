@@ -74,21 +74,35 @@
             padding: 8px; cursor: pointer; backdrop-filter: blur(5px);
         }
 
+        /* 修改点 1：.sticky-header 
+           去掉了 box-shadow，消除了分割线/阴影带来的割裂感
+        */
         .sticky-header {
             width: 100%; max-width: 500px; text-align: center;
             background: var(--bg); z-index: 10; 
             padding-top: 60px; padding-bottom: 20px; flex-shrink: 0;
-            box-shadow: 0 5px 15px -10px rgba(0,0,0,0.1); 
+            /* box-shadow: 0 5px 15px -10px rgba(0,0,0,0.1);  <-- 已移除 */
         }
         h2 { margin-bottom: 20px; font-weight: normal; font-size: 1.6rem; padding: 0 10px; }
         audio { width: 90%; height: 40px; outline: none; }
         
+        /* 修改点 2：.lyrics 
+           修改了 mask-image。顶部改为 black 0% (不透明)，
+           只保留底部的渐隐 (transparent 100%)，这样第一句歌词颜色不会变淡。
+        */
         .lyrics {
             flex: 1; overflow-y: auto; width: 100%; max-width: 500px;
             text-align: center; line-height: 2.2; color: #666; 
             white-space: pre-wrap; padding: 20px 20px 80px 20px;
+            
+            /* 旧的配置（顶部透明导致颜色淡）：
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+            */
+            
+            /* 新的配置（顶部实心，只有底部渐隐）： */
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
+            
             scrollbar-width: none;
         }
         .lyrics::-webkit-scrollbar { display: none; }
@@ -238,5 +252,3 @@
     </script>
 </body>
 </html>
-
-
