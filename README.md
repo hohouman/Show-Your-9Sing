@@ -48,7 +48,7 @@
 
 ## 📂 Directory Structure / 目录结构
 
-Simply place your files in the `src` folder:
+Simply place your files in the `src` folder:  
 只需要把文件扔进 `src` 文件夹：
 
 ```text
@@ -68,19 +68,18 @@ Simply place your files in the `src` folder:
 
 ## ⚙️ Configuration / 个性化配置
 
-To change your Avatar and Nickname, edit the section of `index.html`:
+To change your Avatar and Nickname, edit the section of `index.html`:  
 要修改头像和昵称，请编辑 `index.html` 的配置：
 
 ```javascript
-// index.html
-const AVATAR_URL = "https://your-domain.com/avatar.ico";
-const NICKNAME = "My Name";
-
+const AVATAR_URL = "./favicon.ico";
+const NICKNAME = "小雷顿"; 
+const HOME_PAGE_URL = "https://leidun.pp.ua"; 
 ```
 
 ---
 
-## 🚀 Deployment / 部署教程
+## 🚀 Deployment / 部署
 
 ### Option 1: Cloudflare Pages (Recommended / 推荐)
 
