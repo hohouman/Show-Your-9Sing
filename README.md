@@ -1,4 +1,4 @@
-# 🎤 Show Your 9 Sing (是但9唱)
+# 🎤 Show Your 9Sing (是但9唱)
 
 > **Just Sing, No Config.**
 >
